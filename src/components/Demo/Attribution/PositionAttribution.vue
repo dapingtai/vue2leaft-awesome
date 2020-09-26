@@ -1,24 +1,25 @@
 <template>
   <div class="container">
-    <h1>FullScreen</h1>
-    <router-link to="/">Home</router-link>
+    <h1>G Position Attribution</h1>
     <div id="map">
       <l-map
-          id="fullscreen-map"
+          id="coretest-map"
           :zoom="zoom"
           :center="center"
           :options="mapOptions"
-
+          @mousemove="mapPosition"
+          @update:center="centerUpdated"
+          @update:zoom="zoomUpdated"
       >
+        <!--圖磚-->
         <l-tile-layer :url="url" />
         <l-control-attribution
             :position="attributionPosition"
             :prefix="attributionPrefix"
         />
-        <l-control-fullscreen position="topleft"
-                              :options="{ title: { 'false': 'Go big!', 'true': 'Be regular' } }"
-        />
-        <!-- other map components -->
+        <!--右下組件-->
+        <GPositionAttribution :zoom="zoom" :center="center" :lat-lng="latLng" position="bottomright"/>
+
       </l-map>
 
     </div>
@@ -27,20 +28,17 @@
 
 <script>
 import L from 'leaflet';
-import {
-  LMap, LTileLayer, LControlAttribution,
-  LMarker, LCircle, LPolygon, LPopup
-} from 'vue2-leaflet';
-import LControlFullscreen from 'vue2-leaflet-fullscreen';
+import { LMap, LTileLayer, LControlAttribution} from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
+import GPositionAttribution from "@/components/Core/attribution/GPositionAttribution";
 
 export default {
-  name: "Start",
+  name: "PositionAttributionDemo",
   components: {
     LMap,
     LTileLayer,
     LControlAttribution,
-    LControlFullscreen
+    GPositionAttribution
   },
   data() {
     return {
@@ -49,19 +47,32 @@ export default {
         attributionControl: false,
         zoomSnap: true,
       },
-      zoom: 13,
-      center: L.latLng([22.992, 120.239]),
+      zoom: 10,
+      center: L.latLng([24.9076, 121.5066]),
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attributionPosition: 'bottomright',
       attributionPrefix: 'Powered by <a href="https://vue2-leaflet.netlify.app/">Vue2Leaflet</a>',
       visible: true,
+      latLng: L.latLng([24.9076, 121.5066]),
     }
   },
+  methods:{
+    mapPosition(e){
+      this.latLng = e.latlng;
+      // console.log(e.latlng)
+    },
+    centerUpdated(center){
+      this.center = center;
+    },
+    zoomUpdated(zoom){
+      this.zoom = zoom;
+    },
+  }
 }
 </script>
 
 <style scoped>
-#fullscreen-map{
+#coretest-map{
   height: 80vh;
   background-color:#a3ccff
 }

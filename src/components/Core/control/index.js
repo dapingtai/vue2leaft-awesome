@@ -1,9 +1,15 @@
-import TopLeftButton from '../../../Core/control/TopLeftButton';
-import TopRightButton from '../../../Core/control/TopRightButton';
-import BottomRightButton from "./BottomRightButton";
+import TopLeftButton from '@/components/Core/control/TopLeftButton';
+import TopRightButton from '@/components/Core/control/TopRightButton';
+import GPositionAttribution from "@/components/Core/attribution/GPositionAttribution";
+import GControlZoom from "@/components/Core/control/GControlZoom";
+import GControlGeolocation from "@/components/Core/control/GControlGeolocation";
 
-export {
+let GControl = {
     TopLeftButton,
     TopRightButton,
-    BottomRightButton
+    GPositionAttribution,
+    GControlZoom,
+    GControlGeolocation
 }
+
+export default GControl;

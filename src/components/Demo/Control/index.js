@@ -1,7 +1,6 @@
-import TopLeftButton from '../../Core/control/TopLeftButton';
-import TopRightButton from '../../Core/control/TopRightButton';
-import BottomRightButton from "./BottomRightButton";
+import ControlGeolocation from './ControlGeolocation';
+import ControlZoom from './ControlZoom';
+import TopRightButton from './TopRightButton';
 
-export {
-    BottomRightButton
-}
+let GControl = { ControlGeolocation, ControlZoom, TopRightButton };
+export default GControl;

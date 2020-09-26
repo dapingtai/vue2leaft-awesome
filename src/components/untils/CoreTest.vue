@@ -31,7 +31,7 @@
 import L from 'leaflet';
 import { LMap, LTileLayer, LControlAttribution} from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
-import BottomRightButton from "@/components/Core/control/BottomRightButton";
+import BottomRightButton from "@/components/Core/attribution/GPositionAttribution";
 
 export default {
   name: "CoreTest",

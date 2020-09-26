@@ -1,24 +1,27 @@
 <template>
   <div class="container">
-    <h1>FullScreen</h1>
+    <h1>TopRightButton</h1>
     <router-link to="/">Home</router-link>
     <div id="map">
       <l-map
-          id="fullscreen-map"
+          id="coretest-map"
           :zoom="zoom"
           :center="center"
           :options="mapOptions"
-
       >
-        <l-tile-layer :url="url" />
+        <!--右上圖層選擇組件-->
+        <TopRightButton position="topright" v-on:layerChanged="updateLayer"/>
+
+        <!--圖磚-->
+        <l-tile-layer
+            :visible="visible"
+            :url="url"
+        />
         <l-control-attribution
             :position="attributionPosition"
             :prefix="attributionPrefix"
         />
-        <l-control-fullscreen position="topleft"
-                              :options="{ title: { 'false': 'Go big!', 'true': 'Be regular' } }"
-        />
-        <!-- other map components -->
+
       </l-map>
 
     </div>
@@ -27,20 +30,18 @@
 
 <script>
 import L from 'leaflet';
-import {
-  LMap, LTileLayer, LControlAttribution,
-  LMarker, LCircle, LPolygon, LPopup
-} from 'vue2-leaflet';
-import LControlFullscreen from 'vue2-leaflet-fullscreen';
+import { LMap, LTileLayer, LControlAttribution, LControlLayers} from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
+import TopRightButton from "@/components/Core/control/TopRightButton";
 
 export default {
-  name: "Start",
+  name: "TopRightDemo",
   components: {
     LMap,
     LTileLayer,
     LControlAttribution,
-    LControlFullscreen
+    LControlLayers,
+    TopRightButton
   },
   data() {
     return {
@@ -49,19 +50,30 @@ export default {
         attributionControl: false,
         zoomSnap: true,
       },
-      zoom: 13,
-      center: L.latLng([22.992, 120.239]),
+      zoom: 10,
+      center: L.latLng([24.9076, 121.5066]),
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attributionPosition: 'bottomright',
       attributionPrefix: 'Powered by <a href="https://vue2-leaflet.netlify.app/">Vue2Leaflet</a>',
       visible: true,
+      latLng: L.latLng([24.9076, 121.5066]),
     }
   },
+  methods:{
+    updateLayer(e) {
+      this.url = e.url;
+      this.attributionPrefix =
+        `Powered by
+         <a href="https://vue2-leaflet.netlify.app/">
+            Vue2Leaflet
+         </a>| ${e.name}`;
+    }
+  }
 }
 </script>
 
 <style scoped>
-#fullscreen-map{
+#coretest-map{
   height: 80vh;
   background-color:#a3ccff
 }

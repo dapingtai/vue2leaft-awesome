@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>FullScreen</h1>
+    <h1>Draggable</h1>
     <router-link to="/">Home</router-link>
     <div id="map">
       <l-map
@@ -8,15 +8,11 @@
           :zoom="zoom"
           :center="center"
           :options="mapOptions"
-
       >
         <l-tile-layer :url="url" />
         <l-control-attribution
             :position="attributionPosition"
             :prefix="attributionPrefix"
-        />
-        <l-control-fullscreen position="topleft"
-                              :options="{ title: { 'false': 'Go big!', 'true': 'Be regular' } }"
         />
         <!-- other map components -->
       </l-map>

@@ -1,25 +1,27 @@
 <template>
   <div class="container">
-    <h1>BottomRightButton</h1>
-    <router-link to="/">Home</router-link>
+    <h1>G Control Zoom</h1>
     <div id="map">
       <l-map
+          ref="map"
           id="coretest-map"
           :zoom="zoom"
           :center="center"
           :options="mapOptions"
-          @mousemove="mapPosition"
-          @update:center="centerUpdated"
-          @update:zoom="zoomUpdated"
       >
+        <!--左上Zoom選擇組件-->
+        <GControlZoom position="topleft">
+        </GControlZoom>
+
         <!--圖磚-->
-        <l-tile-layer :url="url" />
+        <l-tile-layer
+            :visible="visible"
+            :url="url"
+        />
         <l-control-attribution
             :position="attributionPosition"
             :prefix="attributionPrefix"
         />
-        <!--右下組件-->
-        <BottomRightButton :zoom="zoom" :center="center" :lat-lng="latLng" position="bottomright"/>
 
       </l-map>
 
@@ -29,22 +31,25 @@
 
 <script>
 import L from 'leaflet';
-import { LMap, LTileLayer, LControlAttribution} from 'vue2-leaflet';
+import { LMap, LTileLayer, LMarker, LControlAttribution, LControlLayers} from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
-import BottomRightButton from "@/components/Core/control/BottomRightButton";
+import GControlZoom from "@/components/Core/control/GControlZoom";
 
 export default {
-  name: "CoreTest",
+  name: "ControlZoomDemo",
   components: {
     LMap,
     LTileLayer,
     LControlAttribution,
-    BottomRightButton
+    LControlLayers,
+    LMarker,
+    GControlZoom,
   },
   data() {
     return {
+      map: null,
       mapOptions: {
-        zoomControl: true,
+        zoomControl: false,
         attributionControl: false,
         zoomSnap: true,
       },
@@ -58,16 +63,13 @@ export default {
     }
   },
   methods:{
-    mapPosition(e){
-      this.latLng = e.latlng;
-      // console.log(e.latlng)
-    },
-    centerUpdated(center){
-      this.center = center;
-    },
-    zoomUpdated(zoom){
-      this.zoom = zoom;
-    },
+  },
+  mounted(){
+    this.$nextTick(() => {
+      // 取得leaflet map Object 傳參
+      this.map = this.$refs.map.mapObject;
+      // console.log(this.mapobject);
+    })
   }
 }
 </script>

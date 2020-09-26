@@ -1,51 +1,51 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloMap from '@/components/HelloMap.vue';
-import Start from "@/components/Demo/Start";
-import FullScreen from "@/components/Demo/FullScreen";
+import demo from "@/components/Demo";
 import CoreTest from "@/components/untils/CoreTest";
-import {TopLeftButton, TopRightButton} from "@/components/Demo/Control";
-import { BottomRightButton } from "@/components/Demo/Control";
+
+export let routerModuels = { HelloMap, ...demo, CoreTest };
+
 Vue.use(Router);
 
 // 建立Vue 路由分頁
-
 export default new Router({
     routes: [
         {
             path: '/',
             name: 'HelloMap',
-            component: HelloMap
+            component: routerModuels.HelloMap
         },
         {
             path: '/Start',
             name: 'Start',
-            component: Start
+            component: routerModuels.Start
         },
         {
             path: '/FullScreen',
             name: 'FullScreen',
-            component: FullScreen
+            component: routerModuels.FullScreen
+        },
+        {
+            path: '/Draggable',
+            name: 'Draggable',
+            component: routerModuels.Draggable
         },
         {
             path: '/CoreTest',
             name: 'CoreTest',
-            component: CoreTest
+            component: routerModuels.CoreTest
         },
         {
-            path: '/TopLeftButton',
-            name: 'TopLeftButton',
-            component: TopLeftButton
+            path: '/Control',
+            name: 'Control',
+            component: routerModuels.Control
         },
         {
-            path: '/TopRightButton',
-            name: 'TopRightButton',
-            component: TopRightButton
+            path: '/Attribution',
+            name: 'Attribution',
+            component: routerModuels.Attribution
         },
-        {
-            path: '/BottomRightButton',
-            name: 'BottomRightButton',
-            component: BottomRightButton
-        }
+
     ]
 })

@@ -26,7 +26,6 @@
 <script>
 import {LControl, LControlScale} from "vue2-leaflet";
 import proj4 from "@/lib/proj4";
-import 'leaflet/dist/leaflet.css';
 
 // depends on Proj4js
 proj4.defs("EPSG:3825", "+proj=tmerc +lat_0=0 +lon_0=119 +k=0.9999 +x_0=250000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
@@ -69,7 +68,7 @@ const props = {
 }
 
 export default {
-  name: "BottomRightButton",
+  name: "GPositionAttribution",
   props: props,
   components: {
     LControl,
