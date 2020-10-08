@@ -1,37 +1,45 @@
 <template>
   <div>
     <slot v-if="ready">
-      <LControl class="geocloud-control-geocoding geocloud-bar" :position="position">
-        <div class="geocloud-control-geocoding-wrap" @mouseleave="showSearch = false">
-          <div class="geocloud-control-geocoding-barContainer" @mouseover="showSearch = true">
-            <div class="geocloud-control-geocoding-bar">
-              <input type="text" placeholder="請輸入地址, 地名, 座標"
-                     class = "search-input"
-                     v-model="searchInfo"
-                     v-on:focus="focusSearch"
-                     v-on:blur="blurSearch"
-              >
-            </div>
-          </div>
-
-          <a class="geocloud-control-geocoding-search" @click="geoSearch">
-            <i class="fa fa-search"></i>
-          </a>
-
-          <div class="geocloud-control-geocoding-listContainer" v-if="ifSearch" v-show="showSearch">
-            <div class="geocloud-control-geocoding-list list-group"
-                 v-for="(item, index) in searchList"
-                 :key="index"
+      <LControl class="geocloud-control-geocoding" :position="position">
+        <div class="geocloud-control-geocoding-barContainer" >
+          <div class="geocloud-control-geocoding-bar">
+            <input type="text" placeholder="請輸入地址, 地名, 座標"
+                   class = "search-input"
+                   v-model="searchInfo"
+                   v-on:focus="focusSearch"
+                   v-on:blur="blurSearch"
             >
-              <button class="list-group-item" @click="chooseSearch(item, index)">
-                <i class="fa fa-map-marker"></i>
-                {{(item.landmark !== undefined) ? item.landmark : item}}
-              </button>
-            </div>
           </div>
         </div>
 
+        <a class="geocloud-control-geocoding-search" @click="geoSearch" v-show="!showSearch">
+          <i class="fa fa-search"></i>
+        </a>
+
+        <a class="geocloud-control-geocoding-removesearch" @click="geoRemoveSearch" v-show="showSearch">
+          <i class="fa fa-arrow-left"></i>
+        </a>
+      </LControl >
+
+      <LControl class="geocloud-control-geocoding-collapse"
+                v-if="ifSearch"
+                v-show="showSearch"
+                :position="position"
+      >
+        <div class="geocloud-control-geocoding-listContainer" >
+          <div class="geocloud-control-geocoding-list list-group"
+               v-for="(item, index) in searchList"
+               :key="index"
+          >
+            <button class="list-group-item" @click="chooseSearch(item, index)">
+              <i class="fa fa-map-marker"></i>
+              {{(item.landmark !== undefined) ? item.landmark : item}}
+            </button>
+          </div>
+        </div>
       </LControl>
+
       <LMarker
           v-if="searchLocationShow"
           :lat-lng="searchLocation.latlng"
@@ -143,10 +151,11 @@ export default {
         this.showSearch = false;
       }
     },
+    geoRemoveSearch(){
+      this.showSearch = false;
+    },
     focusSearch(){
-      if (this.searchInfo.trim() !== "") {
-        this.showSearch = true;
-      }else {
+      if (this.searchInfo.trim() === "") {
         this.showSearch = false;
       }
     },
@@ -193,35 +202,31 @@ export default {
   width: 180%;
 }
 
-.geocloud-control-geocoding-wrap {
-  max-width: 265px;
-  width: 100%;
-  height: 310px;
-}
-
 /** 搜尋座標Bar **/
 .geocloud-control-geocoding-barContainer {
   float: left;
   position: relative;
-  max-width: 260px;
+  max-width: 250px;
   width: 100%;
   border-radius: 2px;
 }
 
-.geocloud-control-geocoding-bar{
+.geocloud-control-geocoding-bar {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
-  max-width: 260px;
+  max-width: 250px;
   width: 100%;
 }
 
-.geocloud-control-geocoding-search {
+.geocloud-control-geocoding-search,
+.geocloud-control-geocoding-removesearch {
   position: absolute;
   top: 0;
   right: 0;
   z-index: 1;
 }
 
-.geocloud-bar a{
+.geocloud-control-geocoding-search,
+.geocloud-control-geocoding-removesearch {
   background-color: #fff;
   border-radius: 2px;
   width: 30px;
@@ -234,7 +239,8 @@ export default {
   cursor: pointer;
 }
 
-.geocloud-bar a:hover{
+.geocloud-control-geocoding-search:hover,
+.geocloud-control-geocoding-removesearch:hover {
   color: darkgreen;
 }
 
@@ -246,16 +252,16 @@ export default {
   border: none;
   width: 100%;
   border-radius: 2px;
+  padding-left: 10px;
 }
 
 /** 搜尋提示 **/
 .geocloud-control-geocoding-listContainer {
   width: 100%;
-  float: left;
-  margin-top: 4px;
+  margin-top: 0px;
   max-height: 260px;
   background-color: white;
-  border-radius: 2px;
+  border-radius: 4px;
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: #8ab48c white;
