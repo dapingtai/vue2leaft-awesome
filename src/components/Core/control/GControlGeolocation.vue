@@ -61,6 +61,10 @@ export default {
                   position.coords.longitude.toFixed('4')
               ];
               this.currentLocationShow = true;
+              this.$emit('flyToCurrentPosition', {
+                center: this.currentLocation,
+                zoom: 12
+              })
             }
         )
       }
@@ -72,7 +76,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /** 定位座標Bar **/
 .geocloud-bar a{
   border-radius: 2px;

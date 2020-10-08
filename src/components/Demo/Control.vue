@@ -3,14 +3,9 @@
     <h1>Map Core Control Components</h1>
     <h3><router-link to="/">Home</router-link></h3>
     <ul class="lists">
-      <li>
-        <a href="#" @click.prevent="changeView('ControlGeolocation')">
-          GControlGeolocation
-        </a>
-      </li>
-      <li>
-        <a href="#" @click.prevent="changeView('ControlZoom')">
-          GControlZoom
+      <li v-for="(list, index) in lists" :key="index">
+        <a href="#" @click.prevent="changeView(list)">
+          {{list}}
         </a>
       </li>
     </ul>
@@ -26,6 +21,7 @@ export default {
   data() {
     return {
       view: null,
+      lists: []
     }
   },
   methods: {
@@ -35,21 +31,26 @@ export default {
   },
   components: {
     ...GControl
+  },
+  mounted(){
+    for (let i in {...GControl}){
+      this.lists.push(i);
+    }
   }
 }
 </script>
 
 <style scoped>
 .lists {
-  width: 400px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .lists li{
   text-align: left;
-  display: inline;
-  padding: .5em .5em;
-  margin: .5em;
+  display: inline-block;
+  padding: .5rem .5rem;
+  margin: .1rem .5rem .5rem 0rem;
   background-color: rgb(209, 209, 209);
 }
 

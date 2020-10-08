@@ -139,7 +139,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .leaflet-container .leaflet-control-attribution{
   margin-bottom: 3px;
 }

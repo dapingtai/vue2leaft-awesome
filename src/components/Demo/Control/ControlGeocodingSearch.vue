@@ -15,7 +15,7 @@
           :options="mapOptions"
       >
         <!--MapCore定位組件-->
-        <GControlGeolocation position="topleft"></GControlGeolocation>
+        <GControlGeocodingSearch position="topleft"></GControlGeocodingSearch>
 
         <!--圖磚-->
         <l-tile-layer
@@ -36,37 +36,12 @@
 import L from 'leaflet';
 import { LMap, LTileLayer, LControlAttribution } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
-import GControlGeolocation from "@/components/Core/control/GControlGeolocation";
+import GControlGeocodingSearch from "@/components/Core/control/GControlGeocodingSearch";
 
 let demoCode = function (){
   return (
     `
-    <template>
-      <div class="container">
-        <div id="map">
-          <l-map
-              ref="map"
-              id="coretest-map"
-              :zoom="zoom"
-              :center="center"
-              :options="mapOptions"
-          >
-            <!--MapCore定位組件-->
-            <GControlGeolocation position="topleft"></GControlGeolocation>
-
-            <!--圖磚-->
-            <l-tile-layer
-              :visible="visible"
-              :url="url"
-            />
-            <l-control-attribution
-              :position="attributionPosition"
-              :prefix="attributionPrefix"
-            />
-          </l-map>
-        </div>
-      </div>
-    </template>
+    Null
     `
   )
 }
@@ -74,7 +49,7 @@ let demoCode = function (){
 export default {
   name: "ControlGeolocationDemo",
   components: {
-    GControlGeolocation,
+    GControlGeocodingSearch,
     LMap,
     LTileLayer,
     LControlAttribution,

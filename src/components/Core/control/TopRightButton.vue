@@ -8,7 +8,7 @@
         </a>
       </LControl>
       <!--控制底圖目錄面板-->
-      <LControl class="geocloud-control-menuContent" :position="position">
+      <LControl class="geocloud-control-menuContent" :position="position" >
         <div class="content geocloud-menuContent-tile">
           <div class="contents">
             <div class="contentTitle">
@@ -74,10 +74,8 @@ export default {
     controlMenuContent(event){
       if(event.target.className){
         event.currentTarget.classList.remove('active');
-        document.getElementsByClassName('geocloud-control-menuContent')[0].classList.remove('active');
       }else {
         event.currentTarget.classList.toggle('active');
-        document.getElementsByClassName('geocloud-control-menuContent')[0].classList.toggle('active');
       }
     },
     /** Menu Content控制開關 **/
