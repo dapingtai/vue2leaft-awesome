@@ -76,7 +76,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 /** 定位座標Bar **/
 .geocloud-bar a{
   border-radius: 2px;

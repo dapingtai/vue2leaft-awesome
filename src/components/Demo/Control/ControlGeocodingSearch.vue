@@ -36,7 +36,7 @@
 import L from 'leaflet';
 import { LMap, LTileLayer, LControlAttribution } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
-import GControlGeocodingSearch from "@/components/Core/control/GControlGeocodingSearch";
+import GControlGeocodingSearch from "../../../../../hybridMineApp/vueapp/src/components/core/control/GControlGeocodingSearch";
 
 let demoCode = function (){
   return (
