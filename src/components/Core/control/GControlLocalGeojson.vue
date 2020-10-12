@@ -218,14 +218,14 @@ export default {
   padding-bottom: 5px;
 }
 
-table{
+table {
   border: 1px solid #0c0c0c;
   border-collapse: collapse;
   text-align: center;
 }
 
 tr{
-  padding: rem;
+  padding: .1rem;
 }
 
 th{

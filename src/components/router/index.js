@@ -46,6 +46,11 @@ export default new Router({
             name: 'Attribution',
             component: routerModuels.Attribution
         },
+        {
+            path: '/Draw',
+            name: 'Draw',
+            component: routerModuels.Draw
+        },
 
     ]
 })

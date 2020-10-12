@@ -11,42 +11,45 @@
       </LControl>
       <!--控制本地GeoJson面板-->
       <transition name="menu-slide">
-        <slot>
-          <LControl class="collapse-show" :position="position" v-show="menuShow">
-            <div class="card-body geocloud-menuContent-localGeojson">
-              <span class="close-content" @click="closeMenuContent">x</span>
-              <table class="table table-bordered">
-                <thead>
-                <tr>
-                  <th>本地目錄</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="title">
-                  <td>
-                    <div class="geocloud-menuContent-localGeojson" v-for="(file, index) in files" :key="index">
-                      <div class="geocloud-localGeojson-button">
-                        <div class="geocloud-localGeojson-describe"
-                             @click="changeGeojson($event, index)"
-                        >
-                          {{file}}
-                        </div>
+        <LControl class="collapse-show" :position="position" v-show="menuShow">
+          <div class="card-body geocloud-menuContent-localGeojson">
+            <span class="close-content" @click="closeMenuContent">x</span>
+            <table class="table table-bordered" v-for="(group, groupindex) in geojsons" :key="group.name">
+              <thead>
+              <tr>
+                <th>{{group.name}}</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="title">
+                <td>
+                  <div class="geocloud-menuContent-localGeojson" v-for="(file, fileindex) in group.geojsons" :key="fileindex">
+                    <div class="geocloud-localGeojson-button">
+                      <div class="geocloud-localGeojson-describe"
+                           @click="changeGeojson($event, groupindex, fileindex)"
+                      >
+                        {{file.name}}
                       </div>
                     </div>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-            <button class="geocloud-localGeojson-removeDescribes" @click="removeGeojson">
-              Remove All
-            </button>
-          </LControl>
-        </slot>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <label for="geoJson-upload" class="custom-geoJson-upload">
+            <i class="fas fa-upload"></i>
+          </label>
+          <input id="geoJson-upload" type="file" @change="handleGeojson"/>
+
+          <button class="geocloud-localGeojson-removeDescribes" @click="removeGeojson">
+            Remove All
+          </button>
+        </LControl>
       </transition>
       <!--顯示本地GeoJson-->
       <slot v-if="geojsonShow">
-        <div v-for="(geojson, index) in geojsons" :key="index">
+        <div v-for="(geojson, index) in addGeoJsons" :key="index">
           <LGeoJson :geojson="geojson.data" :options="geojsonOptions"></LGeoJson>
         </div>
       </slot>
@@ -67,7 +70,7 @@ const props = {
     type: Object,
     default: () => ({
       style: {
-        color: '#DFDFDF',
+        color: 'black',
         weight: 1,
         fillColor: 'blue',
         fillOpacity: 0.5,
@@ -89,9 +92,23 @@ export default {
       menuControlIconActive: false,
       menuShow: false,
       buttonActive: false,
-      geojsons: [],
+      geojsons: [
+        {
+          name: '外部圖像',
+          geojsons: [
+            {
+              name: '法國區域',
+              url: 'https://rawgit.com/gregoiredavid/france-geojson/master/regions/pays-de-la-loire/communes-pays-de-la-loire.geojson'
+            }
+          ]
+        },
+        {
+          name: '本地圖像',
+          geojsons: []
+        }
+      ],
       geojsonShow: false,
-      files: Array
+      addGeoJsons: [],
     }
   ),
   methods: {
@@ -104,14 +121,6 @@ export default {
         this.menuControlIconActive = true;
         this.menuShow = true;
       }
-      let getfiles = require.context('@/assets/geojson/', true, /\.geojson$/).keys();
-      let files = [];
-      getfiles.forEach(
-        (file)=> {
-          files.push(file.replace('./', ''));
-        }
-      )
-      this.files = files;
     },
     /** Menu Content控制開關 **/
     closeMenuContent(){
@@ -127,38 +136,59 @@ export default {
           }
       )
       this.geojsonShow = false;
-      this.geojsons = [];
+      this.addGeoJsons = [];
     },
-    changeGeojson(event, index) {
+    changeGeojson(event, groupindex, fileindex) {
       this.geojsonShow = true;
 
       if(event.currentTarget.classList.contains('active')){
         event.currentTarget.classList.remove('active');
-        this.geojsons.forEach(
+        this.addGeoJsons.forEach(
             (geojson, findindex)=>{
-              if (geojson.index === index){
-                this.geojsons.splice(findindex, 1);
+              if (geojson.groupindex === groupindex && geojson.fileindex === fileindex){
+                this.addGeoJsons.splice(findindex, 1);
               }
             }
         )
       }else {
         event.currentTarget.classList.toggle('active');
         console.log("Start Change");
-        let filepath = `./geojson/${this.files[index]}`;
-        axios.get(filepath, {'Content-Type': 'application/json'}).then(
+        let filepath = this.geojsons[groupindex].geojsons[fileindex].url;
+        axios.get(filepath, {responseType: 'json', 'Content-Type': 'application/json'}).then(
             (res)=> {
               let geojsonObject = {
-                index: index,
+                groupindex: groupindex,
+                fileindex: fileindex,
                 data: res.data
               };
-              this.geojsons.push(geojsonObject);
+              this.addGeoJsons.push(geojsonObject);
             }
         )
       }
+    },
+    handleGeojson(element){
+      let file = element.target.files[0];
+      let url = window.URL.createObjectURL(file);
+      let fileObject = {
+        name: file.name,
+        url: url
+      };
+      console.log(fileObject)
+      this.geojsons[1].geojsons.push(fileObject);
     }
   },
   mounted() {
     this.ready = true
+    let getfiles = require.context('@/assets/geojson/', true, /\.geojson$/).keys();
+    getfiles.forEach(
+        (file)=> {
+          let localFile = {};
+          let fileName = file.replace('./', '');
+          localFile.name = fileName;
+          localFile.url = `./geojson/${fileName}`;
+          this.geojsons[1].geojsons.push(localFile);
+        }
+    )
   }
 }
 </script>
@@ -198,7 +228,7 @@ export default {
 /**** Menu Content ****/
 .menu-slide-enter-active,
 .menu-slide-leave-active {
-  transition: all .8s ease;
+  transition: all .5s ease;
 }
 
 .menu-slide-enter {
@@ -211,6 +241,7 @@ export default {
   opacity: 0;
 }
 
+
 .collapse-show{
   top: 0px;
   width: 240px;
@@ -218,6 +249,7 @@ export default {
   background-color: white;
   box-shadow: 0 3px 1px lightgray, 0 3px 1px gray;
   padding: .2rem;
+  z-index: 99;
 }
 
 .close-content {
@@ -299,5 +331,20 @@ td{
   border: none;
   cursor: pointer;
 }
+
+#geoJson-upload {
+  display: none;
+}
+
+.custom-geoJson-upload {
+  background-color: #FAFAFA;
+  color: #4CAF50;
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
 
 </style>

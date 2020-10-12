@@ -19,7 +19,7 @@
       <li><router-link to="/Draggable">Draggable</router-link></li>
       <li><router-link to="/Attribution">Attribution</router-link></li>
       <li><router-link to="/Control">Control</router-link></li>
-      <li><router-link to="/TopLeftButton">TopLeftButton</router-link></li>
+      <li><router-link to="/Draw">Draw</router-link></li>
       <li><router-link to="/TopRightButton">TopRightButton</router-link></li>
       <li><router-link to="/BottomRightButton">BottomRightButton</router-link></li>
     </ul>
