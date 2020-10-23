@@ -47,7 +47,7 @@ let demoCode = function (){
 }
 
 export default {
-  name: "ControlGeolocationDemo",
+  name: "DrawGPX",
   components: {
     GDrawGPX,
     LMap,

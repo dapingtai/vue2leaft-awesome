@@ -36,12 +36,16 @@
         </slot>
       </transition>
 
+      <!--地圖顯示GPX路線-->
+      <LPolyline :lat-lngs="gpxLine" color="red"/>
+
     </slot>
   </div>
 </template>
 
 <script>
-import { LControl, LMarker, LPopup, LIcon} from 'vue2-leaflet';
+import { LControl, LPolyline } from 'vue2-leaflet';
+/** 產生GPX相依套件**/
 import { buildGPX, GarminBuilder} from 'gpx-builder';
 const { Point } = GarminBuilder.MODELS;
 
@@ -53,9 +57,9 @@ const props = {
 }
 
 export default {
-  name: "GControlGeolocation",
+  name: "GDrawGPX",
   props: props,
-  components: { LControl, LMarker, LPopup, LIcon},
+  components: { LControl, LPolyline },
   data() {
     return {
       ready: false,
@@ -67,11 +71,7 @@ export default {
       gpxWatchID: null,
       gpxLocation: [],
       gpxDownloadLocation: Array,
-      currentLocation: Array,
-      currentLocationShow: false,
-      iconSize: [24,24],
-      iconAnchor: [12,12],
-      popupOptions: { maxWidth: 100 }
+      gpxLine:[]
     }
   },
   methods:{
@@ -92,6 +92,7 @@ export default {
     handleGpxChange(event){
       let gpxStatus = event.target.checked;
       if (gpxStatus){
+        this.gpxLine = [];
         this.gpxDescribe = "關閉GPX";
         console.log("Open Gpx");
         if(navigator.geolocation){
@@ -101,7 +102,9 @@ export default {
                   ele: position.coords.altitude,
                   time: new Date(position.timestamp)
                 })
-                console.log(gpxPoint);
+                // console.log(gpxPoint);
+                this.gpxLine.push([position.coords.latitude, position.coords.longitude]);
+                console.log(this.gpxLine);
                 this.gpxLocation.push(gpxPoint);
               }
           );
@@ -115,42 +118,27 @@ export default {
         this.gpxLocation = [];
       }
     },
+    /**
+     * Title: GPX download for website
+     * outputGPX => 下載輸出GPX資料格式
+     * */
     async downloadGPX(){
       let currentTime = new Date();
       let points = this.gpxDownloadLocation;
-      let gpxData = new GarminBuilder();
-      await gpxData.setSegmentPoints(points);
-      let outputGPX = await buildGPX(gpxData.toObject());
-      let blob = new Blob([outputGPX], {data: 'text/gpx; charset=utf-8;' });
-      let downloadUrl = window.URL.createObjectURL(blob);
-      let a = document.createElement('a');
-      a.href = downloadUrl;
-      a.download = `${currentTime}.gpx`;
-      a.click();
-      window.URL.revokeObjectURL(downloadUrl);
-    },
-    getLocation: function (){
-      if (this.menuControlIconActive){
-        this.menuControlIconActive = false;
-      }else {
-        this.menuControlIconActive = true;
-      }
-
-      if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-              console.log(position);
-              this.currentLocation = [
-                  position.coords.latitude.toFixed('4'),
-                  position.coords.longitude.toFixed('4')
-              ];
-              this.currentLocationShow = true;
-              this.$emit('flyToCurrentPosition', {
-                center: this.currentLocation,
-                zoom: 12
-              })
-            }
-        )
+      if (points !== Array) {
+        let gpxData = new GarminBuilder();
+        await gpxData.setSegmentPoints(points);
+        let outputGPX = await buildGPX(gpxData.toObject());
+        let blob = new Blob([outputGPX], {data: 'text/gpx; charset=utf-8;'});
+        let downloadUrl = window.URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = `${currentTime}.gpx`;
+        a.click();
+        window.URL.revokeObjectURL(downloadUrl);
+        alert(`${currentTime}.gpx 下載完成`);
+      } else {
+        alert("尚未取得GPX紀錄");
       }
     },
   },
