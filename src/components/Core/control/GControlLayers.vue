@@ -49,8 +49,8 @@
 
 <script>
 import {LControl} from 'vue2-leaflet';
-import ncl1 from '../../../../../Mohw_LTC_GIS_Ver/target_vue/src/assets/img/nlsc1.png';
-import ncl2 from '../../../../../Mohw_LTC_GIS_Ver/target_vue/src/assets/img/nlsc2.png';
+import ncl1 from '@/assets/img/nlsc1.png';
+import ncl2 from '@/assets/img/nlsc2.png';
 
 const props = {
   position: {

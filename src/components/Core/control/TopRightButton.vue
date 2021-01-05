@@ -4,7 +4,7 @@
       <!--控制底圖目錄-->
       <LControl class="geocloud-control-menu" :position="position">
         <a class="" @click="controlMenuContent">
-          <img src="../../../../../Mohw_LTC_GIS_Ver/target_vue/src/assets/img/groundFloorMap.svg">
+          <img src="@/assets/img/groundFloorMap.svg">
         </a>
       </LControl>
       <!--控制底圖目錄面板-->
