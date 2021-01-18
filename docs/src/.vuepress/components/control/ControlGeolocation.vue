@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h1>G Control Geolocaltion</h1>
+    <MControlGeolocation />
     <div id="map">
       <l-map
           ref="map"
@@ -31,7 +32,7 @@
 import L from 'leaflet';
 import { LMap, LTileLayer, LControlAttribution } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
-import GControlGeolocation from '@/core/GControlGeolocation.vue';
+import GControlGeolocation from "../core/control/GControlGeolocation";
 
 export default {
   name: "ControlGeolocationDemo",
@@ -56,18 +57,14 @@ export default {
       attributionPrefix: 'Powered by <a href="https://vue2-leaflet.netlify.app/">Vue2Leaflet</a>',
       visible: true,
       latLng: L.latLng([24.9076, 121.5066]),
-      demoData: demoCode()
     }
   },
   mounted(){
     this.$nextTick(() => {
-      // 取得leaflet map Object 傳參
       this.map = this.$refs.map.mapObject;
-      // console.log(this.mapobject);
     })
   }
 }
-
 </script>
 
 <style scoped>
@@ -75,9 +72,11 @@ export default {
   height: 80vh;
   background-color:#a3ccff
 }
+
 #map{
   width: 100%; height: 100%
 }
+
 .html{
   text-align: left;
 }

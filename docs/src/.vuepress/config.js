@@ -42,6 +42,10 @@ module.exports = {
         link: '/config/'
       },
       {
+        text: 'Components',
+        link: '/components/'
+      },
+      {
         text: 'VuePress',
         link: 'https://v1.vuepress.vuejs.org'
       }
@@ -54,6 +58,22 @@ module.exports = {
           children: [
             '',
             'using-vue',
+          ]
+        }
+      ],
+      '/components/': [
+        {
+          title: 'Control',
+          collapsable: false,
+          children: [
+            'GControlGeolocation',
+          ]
+        },
+        {
+          title: 'Attribution',
+          collapsable: false,
+          children: [
+            'GAttribution'
           ]
         }
       ],
