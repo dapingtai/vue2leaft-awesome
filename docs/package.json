@@ -1,0 +1,23 @@
+{
+  "name": "vue2leaflet-awesome-vuepress",
+  "version": "0.0.1",
+  "description": "vue2leaflet-awesome document tutorials",
+  "main": "index.js",
+  "authors": {
+    "name": "Hung Chang",
+    "email": "zero102x@gmail.com"
+  },
+  "repository": "https://github.com/dapingtai/vue2leaft-awesome.git/vue2leaflet-awesome-vuepress",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  },
+  "dependencies": {
+    "leaflet": "^1.7.1",
+    "vue2-leaflet": "^2.6.0"
+  }
+}
