@@ -1,6 +1,7 @@
 # GControlGeolocation
 
 ## Demo
+<useFontAwesome/>
 <control-ControlGeolocation />
 
 ## Code
@@ -8,7 +9,6 @@
 <template>
   <div class="container">
     <h1>G Control Geolocaltion</h1>
-    <MControlGeolocation />
     <div id="map">
       <l-map
           ref="map"
@@ -18,7 +18,7 @@
           :options="mapOptions"
       >
         <!--MapCore定位組件-->
-        <GControlGeolocation position="topleft"></GControlGeolocation>
+        <GControlGeolocation position="topleft" @flyToCurrentPosition="flyToPosition"></GControlGeolocation>
 
         <!--圖磚-->
         <l-tile-layer
@@ -39,7 +39,7 @@
 import L from 'leaflet';
 import { LMap, LTileLayer, LControlAttribution } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
-import GControlGeolocation from "./core/GControlGeolocation";
+import GControlGeolocation from "../core/control/GControlGeolocation";
 
 export default {
   name: "ControlGeolocationDemo",
@@ -66,26 +66,25 @@ export default {
       latLng: L.latLng([24.9076, 121.5066]),
     }
   },
+  methods:{
+    flyToPosition(e){
+      this.$refs.map.mapObject.flyTo(e.center, e.zoom);
+    },
+  },
   mounted(){
-    this.$nextTick(() => {
-      this.map = this.$refs.map.mapObject;
-    })
+
   }
 }
 </script>
 
 <style scoped>
-#coretest-map{
-  height: 80vh;
-  background-color:#a3ccff
-}
-
-#map{
-  width: 100%; height: 100%
-}
-
-.html{
-  text-align: left;
-}
+  #coretest-map{
+    height: 80vh;
+    background-color:#a3ccff
+  }
+    
+  #map{
+    width: 100%; height: 100%
+  }
 </style>
 ```

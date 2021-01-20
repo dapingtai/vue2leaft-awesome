@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>G Control Geolocaltion</h1>
+    <h1>G Control Zoom</h1>
     <div id="map">
       <l-map
           ref="map"
@@ -9,8 +9,9 @@
           :center="center"
           :options="mapOptions"
       >
-        <!--MapCore定位組件-->
-        <GControlGeolocation position="topleft" @flyToCurrentPosition="flyToPosition"></GControlGeolocation>
+        <!--左上Zoom選擇組件-->
+        <GControlZoom position="topleft">
+        </GControlZoom>
 
         <!--圖磚-->
         <l-tile-layer
@@ -21,6 +22,7 @@
             :position="attributionPosition"
             :prefix="attributionPrefix"
         />
+
       </l-map>
 
     </div>
@@ -31,15 +33,15 @@
 import L from 'leaflet';
 import { LMap, LTileLayer, LControlAttribution } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
-import GControlGeolocation from "../core/control/GControlGeolocation";
+import GControlZoom from "../core/control/GControlZoom";
 
 export default {
-  name: "ControlGeolocationDemo",
+  name: "ControlZoomDemo",
   components: {
-    GControlGeolocation,
     LMap,
     LTileLayer,
     LControlAttribution,
+    GControlZoom,
   },
   data() {
     return {
@@ -58,14 +60,6 @@ export default {
       latLng: L.latLng([24.9076, 121.5066]),
     }
   },
-  methods:{
-    flyToPosition(e){
-      this.$refs.map.mapObject.flyTo(e.center, e.zoom);
-    },
-  },
-  mounted(){
-
-  }
 }
 </script>
 
@@ -74,7 +68,6 @@ export default {
   height: 80vh;
   background-color:#a3ccff
 }
-
 #map{
   width: 100%; height: 100%
 }

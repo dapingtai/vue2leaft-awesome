@@ -38,8 +38,8 @@ module.exports = {
         link: '/guide/',
       },
       {
-        text: 'Config',
-        link: '/config/'
+        text: 'Quickstart',
+        link: '/quickstart/'
       },
       {
         text: 'Components',
@@ -66,6 +66,7 @@ module.exports = {
           title: 'Control',
           collapsable: false,
           children: [
+            'GControlZoom',
             'GControlGeolocation',
           ]
         },
