@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <h1>Map Core Attribution Components</h1>
+  <div>
+    <h1>Map Core Analysis Components</h1>
     <h3><router-link to="/">Home</router-link></h3>
     <ul class="lists">
       <li>

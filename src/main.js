@@ -2,19 +2,19 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './components/router';
 import {Icon} from 'leaflet';
+import {BootstrapVue, IconsPlugin } from "bootstrap-vue";
+
+/** UI FrameWork bootstrap vue**/
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
 
 // FontAwesome 使用
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { fas } from '@fortawesome/free-solid-svg-icons'
+import { library, dom } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 library.add(fas);
-
-// 引入Highlight 代碼高清展示
-import VueHighlightJS from 'vue-highlightjs';
-import 'highlight.js/styles/atom-one-dark.css';
-Vue.use(VueHighlightJS);
-
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+dom.watch();
 
 // Leaflet 圖標正確顯示
 delete Icon.Default.prototype._getIconUrl;

@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <h1>G Analysis Range</h1>
+  <div style="margin: 5px">
+    <h1 style="padding: 2rem">G Analysis Range</h1>
     <div id="map">
       <l-map
           id="coretest-map"
@@ -73,7 +73,7 @@ export default {
 
 <style scoped>
 #coretest-map{
-  height: 80vh;
+  height: 100vh;
   background-color:#a3ccff
 }
 

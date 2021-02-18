@@ -13,31 +13,152 @@
       <transition name="menu-slide">
         <slot v-if="menuShow">
           <LControl class="collapse-show" :position="position">
-            <span class="close-content" @click="closeMenuContent">x</span>
-            <div class="card-body geocloud-menuContent-tile">
-              <h2 style="text-align:left">1.選擇範圍</h2>
-              <div class="G_moduleRow">
-                <div class="G_labelSquare">
-                  <i class="fas fa-square fa-3x"></i>
-                  <span>方形</span>
-                </div>
-                <div class="G_labelPolygon">
-                  <i class="fas fa-draw-polygon fa-3x"></i>
-                  <span>多邊形</span>
-                </div>
-                <div class="G_labelCircle">
-                  <i class="fas fa-circle fa-3x"></i>
-                  <span>圓形</span>
-                </div>
-                <div class="G_labelCircle">
-                  <i class="fas fa-street-view fa-3x"></i>
-                  <span>半徑</span>
-                </div>
+            <b-card
+                header="Primary"
+                header-bg-variant="primary"
+                header-text-variant="white"
+            >
+              <template #header>
+                <b-row>
+                  <b-col cols="10" style="text-align: left">
+                    <h5>環域分析工具</h5>
+                  </b-col>
+                  <b-col cols="2">
+                    <span class="close-content" @click="closeMenuContent">x</span>
+                  </b-col>
+                </b-row>
+              </template>
+              <div class="geocloud-menuContent">
+                <b-card>
+                  <template #header><h5 style="text-align: left">1.選擇範圍</h5></template>
+                  <div class="G_moduleRow">
+                    <div class="G_labelSquare">
+                      <i class="fas fa-square fa-3x"></i>
+                      <span>方形</span>
+                    </div>
+                    <div class="G_labelPolygon">
+                      <i class="fas fa-draw-polygon fa-3x"></i>
+                      <span>多邊形</span>
+                    </div>
+                    <div class="G_labelCircle">
+                      <i class="fas fa-circle fa-3x"></i>
+                      <span>圓形</span>
+                    </div>
+                    <div class="G_labelCircle">
+                      <i class="fas fa-street-view fa-3x"></i>
+                      <span>半徑</span>
+                    </div>
+                  </div>
+                  <div>
+                    <b-input placeholder="輸入座標"></b-input>
+                    <br>
+                    <b-row>
+                      <b-col cols="2" style="padding: 0">
+                        半徑：
+                      </b-col>
+                      <b-col cols="10" style="padding: 0">
+                        <b-row>
+                          <b-col cols="1" style="padding: 0"><p>0</p></b-col>
+                          <b-col cols="8" style="padding: 0">
+                            <b-form-input id="range-1" v-model="value" type="range" min="0" max="5"></b-form-input>
+                          </b-col>
+                          <b-col cols="3" style="padding: 0">
+                            <p>10公里</p>
+                          </b-col>
+                        </b-row>
+                      </b-col>
+                    </b-row>
+
+                  </div>
+                </b-card>
+                <br>
+                <b-card>
+                  <template #header>
+                    <h5 style="text-align:left">2.選擇潛勢災害</h5>
+                  </template>
+                  <b-list-group-item v-b-toggle.collapse-1-inner class="d-flex align-items-center">
+                    <b-avatar variant="info" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/ROC_Water_Resources_Agency_Seal.svg/1200px-ROC_Water_Resources_Agency_Seal.svg.png" class="mr-3"></b-avatar>
+                    <span class="mr-auto"><b style="font-size: 16px">淹水潛勢</b></span>
+                    <b-badge variant="primary">10</b-badge>
+                  </b-list-group-item>
+                  <b-collapse id="collapse-1-inner" class="mt-2">
+                    <b-card>
+                      <b-row>
+                        <b-checkbox v-for="item in water" :key="item">
+                          {{item}}
+                        </b-checkbox>
+                      </b-row>
+                    </b-card>
+                  </b-collapse>
+
+                  <br>
+
+                  <b-list-group-item v-b-toggle.collapse-2-inner class="d-flex align-items-center">
+                    <b-avatar variant="success" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/ROC_Central_Geological_Survey_Emblem.svg/200px-ROC_Central_Geological_Survey_Emblem.svg.png" class="mr-3"></b-avatar>
+                    <span class="mr-auto"><b style="font-size: 16px">土石流/山崩</b></span>
+                    <b-badge variant="warning">10</b-badge>
+                  </b-list-group-item>
+
+                  <b-collapse id="collapse-2-inner" class="mt-2">
+                    <b-card>Hello!</b-card>
+                  </b-collapse>
+
+                  <br>
+
+                  <b-list-group-item v-b-toggle.collapse-3-inner class="d-flex align-items-center">
+                    <b-avatar variant="success" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/ROC_Central_Geological_Survey_Emblem.svg/200px-ROC_Central_Geological_Survey_Emblem.svg.png" class="mr-3"></b-avatar>
+                    <span class="mr-auto"><b style="font-size: 16px">斷層/土壤液化</b></span>
+                    <b-badge>3</b-badge>
+                  </b-list-group-item>
+
+                  <b-collapse id="collapse-3-inner" class="mt-2">
+                    <b-card>Hello!</b-card>
+                  </b-collapse>
+
+                  <br>
+
+                  <b-list-group-item v-b-toggle.collapse-4-inner class="d-flex align-items-center">
+                    <b-avatar variant="success" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/ROC_Central_Geological_Survey_Emblem.svg/200px-ROC_Central_Geological_Survey_Emblem.svg.png" class="mr-3"></b-avatar>
+                    <span class="mr-auto"><b style="font-size: 16px">火山潛勢</b></span>
+                    <b-badge variant="success">3</b-badge>
+                  </b-list-group-item>
+                  <b-collapse id="collapse-4-inner" class="mt-2">
+                    <b-card>Hello!</b-card>
+                  </b-collapse>
+                </b-card>
+                <br>
+                <b-card>
+                  <template #header>
+                    <h5 style="text-align:left">3.開始潛勢分析</h5>
+                  </template>
+                  <div class="d-inline-block" style="font-size: 1rem;">
+                    <b-form-tag
+                        v-for="tag in tags"
+                        :key="tag.name"
+                        :title="tag.name"
+                        pill
+                        :variant="tag.variant"
+                        size="sm"
+                        class="mr-1"
+                    >
+                      {{ tag.name }}
+                    </b-form-tag>
+                  </div>
+                  <div style="padding-top: 5px">
+                    <b-button variant="danger">
+                      <i class="fas fa-file-pdf"></i>
+                      產生潛勢分析報告
+                    </b-button>
+                  </div>
+                  <template #footer>
+                    <b-row>
+                      <b-col cols="4"><span>分析進度：</span></b-col>
+                      <b-col cols="8"><b-progress value="45" max="100" show-progress animated></b-progress></b-col>
+                    </b-row>
+                  </template>
+                </b-card>
               </div>
-              <h2 style="text-align:left">2.選擇潛勢災害</h2>
-              <h2 style="text-align:left">3.開始潛勢分析</h2>
-              <button>產生潛勢分析報告</button>
-            </div>
+            </b-card>
           </LControl>
         </slot>
       </transition>
@@ -68,6 +189,16 @@ export default {
         ready: false,
         menuControlIconActive: false,
         menuShow: false,
+        water: [
+          '6小時150毫米', '6小時250毫米', '6小時350毫米',
+          '12小時200毫米', '12小時300毫米', '12小時400毫米',
+          '24小時200毫米', '24小時350毫米', '24小時500毫米', '24小時650毫米'
+        ],
+        tags: [
+          { name: '6小時150毫米', variant: 'primary' },
+          { name: '土壤液化', variant: 'warning' },
+          { name: '七星山', variant: 'success' }
+        ]
       }
   ),
   methods: {
@@ -160,11 +291,13 @@ export default {
 
 .collapse-show{
   top: 0px;
-  width: 300px;
+  width: 400px;
+  overflow-y: scroll;
   border-radius: .25rem;
   background-color: white;
   box-shadow: 0 3px 1px lightgray, 0 3px 1px gray;
   padding: .2rem;
+  max-height: calc(90vh);
 }
 
 .close-content {
@@ -172,7 +305,7 @@ export default {
   font-size: 21px;
   font-weight: bold;
   line-height: 1;
-  color: #000;
+  color: white;
   text-shadow: 0 1px 0 #fff;
   filter: alpha(opacity=20);
   opacity: .2;
@@ -180,9 +313,13 @@ export default {
   padding-right: .1rem;
 }
 .close-content:hover{
+  color: #0c0c0c;
   opacity: .5;
 }
 
+.geocloud-menuContent{
+  margin: 0 10px 0 10px;
+}
 
 .G_moduleRow{
   display: flex;
