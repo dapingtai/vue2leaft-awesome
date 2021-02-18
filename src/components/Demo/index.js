@@ -3,6 +3,7 @@ import FullScreen from './FullScreen';
 import Draggable from "./Draggable";
 import Control from './Control';
 import Attribution from "./Attribution";
+import Analysis from "./Analysis";
 import Draw from "./Draw";
 
 let demo = {
@@ -11,6 +12,7 @@ let demo = {
     Draggable,
     Control,
     Attribution,
+    Analysis,
     Draw,
 }
 
