@@ -74,7 +74,7 @@ module.exports = {
           title: 'Attribution',
           collapsable: false,
           children: [
-            'GAttribution'
+            'GAttributionPosition'
           ]
         }
       ],
